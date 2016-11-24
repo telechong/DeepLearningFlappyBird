@@ -1,6 +1,7 @@
 # ignore all pyc files.
 *.pyc
 saved_networks*
+data
 .project
 .pydevproject
 
