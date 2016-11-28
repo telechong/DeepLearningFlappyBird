@@ -12,6 +12,8 @@ import numpy as np
 
 from game.wrapped_flappy_bird import GameState
 from brain.dqn import DQN
+from brain.data import CheckPointMgmt
+from brain.data import Summary
 
 ACTIONS = 2
 
@@ -98,7 +100,11 @@ def _play_game(args):
     observation = cv2.cvtColor(cv2.resize(observation, (80, 80)), cv2.COLOR_BGR2GRAY)
     _, observation0 = cv2.threshold(observation, 1, 255, cv2.THRESH_BINARY)
 
-    dqn = DQN(observation0, ACTIONS, args.checkpoints, args.summary)
+    summary = Summary(args.summary)
+    cp_mgmt = CheckPointMgmt(args.checkpoints, args.checkpoints)
+    cp_mgmt.setup()
+
+    dqn = DQN(observation0, ACTIONS, cp_mgmt, summary)
 
     while True:
         action = dqn.get_action()
